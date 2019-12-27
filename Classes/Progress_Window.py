@@ -49,6 +49,7 @@ class Ui_Progress_Window(QMainWindow):
         self.Predict_Icon = None
         self.Help_Icon = None
         self.Back_Icon = None
+        self.Application_Main = None
 
         # Other Component #
         self.Results_Window_Main = None
@@ -86,7 +87,7 @@ class Ui_Progress_Window(QMainWindow):
             self.Manager_Controller_Object = Role_Controller_Object
         pass
 
-    def Init_UI(self, Progress_Window_Main):
+    def Init_UI(self, Application_Main, Progress_Window_Main):
         # Explain Of The Function #
         """
         This Function Make The Initialized Of The GUI.
@@ -95,13 +96,16 @@ class Ui_Progress_Window(QMainWindow):
         ##########
         # Window #
         ##########
+        self.Application_Main = Application_Main
         self.Progress_Window_Main = Progress_Window_Main
         Progress_Window_Main.setObjectName("Progress_Window")
         Progress_Window_Main.resize(self.Width, self.Height)
         Progress_Window_Main.setMinimumSize(QtCore.QSize(self.Width, self.Height))
         Progress_Window_Main.setMaximumSize(QtCore.QSize(self.Width, self.Height))
         Progress_Window_Main.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        QApplication.restoreOverrideCursor()
         Progress_Window_Main.setWindowTitle("Prose Style Transfer - Progress Bar Window")
+        Progress_Window_Main.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, False)
 
         ########
         # Icon #
@@ -165,7 +169,7 @@ class Ui_Progress_Window(QMainWindow):
                                                      self.Width / 4.739, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -185,7 +189,7 @@ class Ui_Progress_Window(QMainWindow):
                                                   self.Width / 4.739, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -202,10 +206,10 @@ class Ui_Progress_Window(QMainWindow):
         self.Back_Button = QtWidgets.QPushButton(self.Progress_Window_Frame_White)
         self.Back_Button.setEnabled(True)
         self.Back_Button.setGeometry(QtCore.QRect(self.Width / 33.333, (self.Height / 1.428) - (self.Height / 8.307),
-                                                  self.Width / 4.739, self.Height / 8.791))
+                                                  self.Width / 4.45, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -281,11 +285,6 @@ class Ui_Progress_Window(QMainWindow):
         self.Progress_Bar.setMinimum(0)
         self.Progress_Bar.setMaximum(100)
         self.Progress_Bar.setObjectName("Progress_Bar")
-        # Not In Used #
-        """
-        self.Update_Progress_Bar_Value = Progress_Bar_Thread(Count=0)
-        self.Update_Progress_Bar_Value.Count_Changed.connect(self.Progress_Bar.setValue)
-        """
 
         #############
         # Help Icon #
@@ -323,7 +322,7 @@ class Ui_Progress_Window(QMainWindow):
         # Back Icon #
         #############
         self.Back_Icon = QtWidgets.QLabel(self.Progress_Window_Frame_White)
-        self.Back_Icon.setGeometry(QtCore.QRect(self.Width / 5.555, (self.Height / 1.367) - (self.Height / 8.307),
+        self.Back_Icon.setGeometry(QtCore.QRect(self.Width / 5.2, (self.Height / 1.367) - (self.Height / 8.307),
                                                 self.Width / 24.390, self.Height / 19.512))
         self.Back_Icon.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.Back_Icon.setFocusPolicy(QtCore.Qt.StrongFocus)
@@ -341,6 +340,7 @@ class Ui_Progress_Window(QMainWindow):
         Progress_Window_Main.setCentralWidget(self.Progress_Bar_Frame)
         self.Retranslate_UI()
         QtCore.QMetaObject.connectSlotsByName(Progress_Window_Main)
+        self.Application_Main.aboutToQuit.connect(self.Close_Event_By_X_Button)
         pass
 
     def Retranslate_UI(self):
@@ -352,7 +352,7 @@ class Ui_Progress_Window(QMainWindow):
         _translate = QtCore.QCoreApplication.translate
         self.Prose_Style_Transfer_Label.setText(_translate("Progress_Window",
                                                            "<html><head/><body><p><span "
-                                                           "style=\" font-size:70pt; font-style:italic;\">PROSE<br/>"
+                                                           "style=\" font-size:60pt; font-style:italic;\">PROSE<br/>"
                                                            "STYLE <br/>TRANSFER</span></p></body></html>"))
         self.Predict_Button.setText(_translate("Progress_Window", "Predict"))
         self.Help_Button.setText(_translate("Progress_Window", "Help"))
@@ -378,6 +378,9 @@ class Ui_Progress_Window(QMainWindow):
                 print("===========================================================================")
                 print("\t\t\tMouse Event On - Predict Icon !")
                 print("===========================================================================")
+
+            # Wait Cursor #
+            QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
 
             # Make Checking Again - If The Model Exist #
             if self.Shelve_Settings_Dictionary is None:
@@ -444,11 +447,15 @@ class Ui_Progress_Window(QMainWindow):
                                           "Model_With_Augmentation.h5"
 
                 # Call To Predict Result's #
-                Accuracy, Max_Values = self.Predict_Results(self.Source_Prose_Path,
-                                                            self.Target_Prose_Path,
-                                                            self.Model_Path)
+                Accuracy, Max_Values, All_Prediction_List = self.Predict_Results(self.Source_Prose_Path,
+                                                                                 self.Target_Prose_Path,
+                                                                                 self.Model_Path)
 
-                if Accuracy != -1 and Max_Values is not None:
+                if (Accuracy != -1) and (Max_Values is not None) and (All_Prediction_List is not None):
+
+                    # Default Cursor #
+                    QApplication.restoreOverrideCursor()
+
                     # Enabled The Prediction Button , And Help Button #
                     self.Predict_Button.setEnabled(True)
                     self.Help_Button.setEnabled(True)
@@ -479,8 +486,12 @@ class Ui_Progress_Window(QMainWindow):
                     Show New Window With The Accuracy Result.
                     Show File That Represent The Accuracy Between Each Sentence.
                     """
-                    self.Show_Results_Window(Accuracy, Max_Values)
+                    self.Show_Results_Window(Accuracy, Max_Values, All_Prediction_List)
                 else:
+
+                    # Default Cursor #
+                    QApplication.restoreOverrideCursor()
+
                     print()
                     print("===========================================================================")
                     print("\t\tThe Predict Finished With - Failure !")
@@ -508,7 +519,7 @@ class Ui_Progress_Window(QMainWindow):
                             # From #
                             from Classes.User_Window import Ui_User_Window
                             self.User_Window_Object = Ui_User_Window(self.Script_Path, self.User_Role)
-                            self.User_Window_Object.Init_UI(self.User_Window_Main)
+                            self.User_Window_Object.Init_UI(self.Application_Main, self.User_Window_Main)
 
                             # Close Current Window #
                             self.Progress_Window_Main.close()
@@ -523,7 +534,7 @@ class Ui_Progress_Window(QMainWindow):
                             # From #
                             from Classes.Manager_Window import Ui_Manager_Window
                             self.Manager_Window_Object = Ui_Manager_Window(self.Script_Path, self.User_Role)
-                            self.Manager_Window_Object.Init_UI(self.Manager_Window_Main)
+                            self.Manager_Window_Object.Init_UI(self.Application_Main, self.Manager_Window_Main)
 
                             # Close Current Window #
                             self.Progress_Window_Main.close()
@@ -533,6 +544,10 @@ class Ui_Progress_Window(QMainWindow):
 
             # If The Model Not Exist #
             else:
+
+                # Default Cursor #
+                QApplication.restoreOverrideCursor()
+
                 # Style Sheet #
                 Icon = QtGui.QIcon()
                 Icon.addPixmap(QtGui.QPixmap("../Pictures/Project - Logo.ico"),
@@ -550,6 +565,9 @@ class Ui_Progress_Window(QMainWindow):
                                      "You Can't Predict The Results Of The Model !</font></p>")
 
         except Exception as Object_Exception:
+            # Default Cursor #
+            QApplication.restoreOverrideCursor()
+
             # Return 'Predict' Button To Enable , Because There Have Exception #
             self.Predict_Button.setEnabled(True)
 
@@ -590,6 +608,9 @@ class Ui_Progress_Window(QMainWindow):
             # Tokenizer #
             Tokenizer_Object = Tokenizer()
 
+            # Default Cursor #
+            QApplication.restoreOverrideCursor()
+
             # Style Sheet #
             Icon = QtGui.QIcon()
             Icon.addPixmap(QtGui.QPixmap("../Pictures/Project - Logo.ico"),
@@ -604,6 +625,9 @@ class Ui_Progress_Window(QMainWindow):
                                       'QPushButton:hover{color: #ffaa00;}')
             QMessageBox.information(self, "Load - Model",
                                     "<p><font color='#ffaa00'>The System Loading The Model , Its Will Take Some Seconds !</font></p>")
+
+            # Wait Cursor #
+            QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
 
             # Load The File Of The Module #
             Model_Object = load_model(Model_Path)
@@ -636,6 +660,9 @@ class Ui_Progress_Window(QMainWindow):
             # Create Thread For Progress Bar #
             self.Execute_Thread = Execute_Session(self.Progress_Bar, Progress_Update)
             self.Execute_Thread.PyQt_Signal.connect(self.Update_Progress_Bar)
+
+            # Prediction List #
+            All_Prediction_List = []
 
             while Index_Source < len(Sentences_Source_File):
                 while Index_Target < len(Sentences_Target_File):
@@ -673,6 +700,10 @@ class Ui_Progress_Window(QMainWindow):
 
                     Preds = list(Model_Object.predict([Test_Data_Source_Prose, Test_Data_Target_Prose, Leaks_Test],
                                                       verbose=1).ravel())
+
+                    # Append Value To 'All Prediction List' #
+                    All_Prediction_List.append(Preds[0])
+
                     for Value in Preds:
                         if Value < 0.01:
                             Preds_Label.append(0)
@@ -719,7 +750,7 @@ class Ui_Progress_Window(QMainWindow):
             Accuracy_Value = round((Count_One / (Count_Zero + Count_One)) * 1000, 2)
 
             # Return The Results From Function #
-            return Accuracy_Value, Max_Values
+            return Accuracy_Value, Max_Values, All_Prediction_List
         except Exception as Object_Exception:
 
             # Print To Console #
@@ -788,7 +819,7 @@ class Ui_Progress_Window(QMainWindow):
                                  "The Help File Of The System !</font></p>")
         pass
 
-    def Show_Results_Window(self, Accuracy, Max_Values):
+    def Show_Results_Window(self, Accuracy, Max_Values, All_Prediction_List):
         # Explain Of The Function #
         """
         With This Function We Will See The Result Window.
@@ -807,13 +838,13 @@ class Ui_Progress_Window(QMainWindow):
             from Classes.Results_Window import Ui_Results_Window
             self.Results_Window_Object = Ui_Results_Window(self.Script_Path, self.User_Role, self.Choice_Number,
                                                            self.Source_Prose_Pick, self.Target_Prose_Pick,
-                                                           Accuracy, Max_Values)
-            self.Results_Window_Object.Init_UI(self.Results_Window_Main)
+                                                           Accuracy, Max_Values, All_Prediction_List)
+            self.Results_Window_Object.Init_UI(self.Application_Main, self.Results_Window_Main)
 
             # Close Current Window #
             self.Progress_Window_Main.close()
 
-            # Show Previous Window #
+            # Show Next Window #
             self.Results_Window_Main.show()
 
             pass
@@ -856,13 +887,27 @@ class Ui_Progress_Window(QMainWindow):
                                                                            self.Source_Prose_Path,
                                                                            self.Target_Prose_Pick,
                                                                            self.Target_Prose_Path)
-        self.Source_And_Target_Window_Object.Init_UI(self.Source_And_Target_Window_Main)
+        self.Source_And_Target_Window_Object.Init_UI(self.Application_Main, self.Source_And_Target_Window_Main)
 
         # Close Current Window #
         self.Progress_Window_Main.close()
 
         # Show Previous Window #
         self.Source_And_Target_Window_Main.show()
+        pass
+
+    @staticmethod
+    def Close_Event_By_X_Button():
+        # Explain Of The Function #
+        """
+        This Function Close The GUI By 'X' Button.
+        """
+
+        print("===========================================================================")
+        print("\t\t\tThe User Press On - 'X' / 'Close' Button !")
+        print("===========================================================================")
+
+        sys.exit(0)
         pass
 
     pass

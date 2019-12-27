@@ -2,6 +2,7 @@
 import shelve
 import ctypes
 import os
+import sys
 
 # Froms #
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -39,6 +40,7 @@ class Ui_Settings_Window(QMainWindow):
         self.Back_Icon = None
         self.Help_Icon = None
         self.Apply_Icon = None
+        self.Application_Main = None
 
         # Other Component #
         self.Manager_Window_Main = None
@@ -51,7 +53,7 @@ class Ui_Settings_Window(QMainWindow):
         self.Height = Height_Screen
         pass
 
-    def Init_UI(self, Settings_Window_Main):
+    def Init_UI(self, Application_Main, Settings_Window_Main):
         # Explain Of The Function #
         """
         This Function Make The Initialized Of The GUI.
@@ -60,6 +62,7 @@ class Ui_Settings_Window(QMainWindow):
         ##########
         # Window #
         ##########
+        self.Application_Main = Application_Main
         self.Settings_Window_Main = Settings_Window_Main
         Settings_Window_Main.setObjectName("Settings_Window")
         Settings_Window_Main.resize(self.Width, self.Height)
@@ -126,11 +129,11 @@ class Ui_Settings_Window(QMainWindow):
         # Epoch Label #
         ###############
         self.Epoch_Number_Label = QtWidgets.QLabel(self.Settings_Window_White_Frame)
-        self.Epoch_Number_Label.setGeometry(QtCore.QRect(self.Width / 33.333, (self.Height / 3.2) - (self.Height / 8),
-                                                         self.Width / 7.092, self.Height / 26.666))
+        self.Epoch_Number_Label.setGeometry(QtCore.QRect(self.Width / 33.333, (self.Height / 3.2) - (self.Height / 8.5),
+                                                         self.Width / 7.092, self.Height / 20))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(23)
+        font.setPointSize(17)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -142,8 +145,8 @@ class Ui_Settings_Window(QMainWindow):
         # Epoch Text #
         ##############
         self.Epoch_Number_Text = QtWidgets.QLineEdit(self.Settings_Window_White_Frame)
-        self.Epoch_Number_Text.setGeometry(QtCore.QRect(self.Width / 5.555, (self.Height / 3.2) - (self.Height / 8.307),
-                                                        self.Width / 3.322, self.Height / 25.806))
+        self.Epoch_Number_Text.setGeometry(QtCore.QRect(self.Width / 5.555, (self.Height / 3.2) - (self.Height / 9),
+                                                        self.Width / 3.322, self.Height / 21))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(15)
@@ -164,10 +167,10 @@ class Ui_Settings_Window(QMainWindow):
         ###############
         self.Back_Button = QtWidgets.QPushButton(self.Settings_Window_White_Frame)
         self.Back_Button.setGeometry(QtCore.QRect(self.Width / 33.333, (self.Height / 1.739) - (self.Height / 8.307),
-                                                  self.Width / 4.587, self.Height / 8.791))
+                                                  self.Width / 4.25, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -186,7 +189,7 @@ class Ui_Settings_Window(QMainWindow):
                                                   self.Width / 4.739, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -217,7 +220,7 @@ class Ui_Settings_Window(QMainWindow):
                                                    self.Width / 2.217, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -232,11 +235,11 @@ class Ui_Settings_Window(QMainWindow):
         # Batch Size Label #
         ####################
         self.Batch_Size_Label = QtWidgets.QLabel(self.Settings_Window_White_Frame)
-        self.Batch_Size_Label.setGeometry(QtCore.QRect(self.Width / 33.333, (self.Height / 2.580) - (self.Height / 8),
-                                                       self.Width / 3.322, self.Height / 26.666))
+        self.Batch_Size_Label.setGeometry(QtCore.QRect(self.Width / 33.333, (self.Height / 2.580) - (self.Height / 8.5),
+                                                       self.Width / 3.322, self.Height / 20))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(23)
+        font.setPointSize(17)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -248,8 +251,8 @@ class Ui_Settings_Window(QMainWindow):
         # Batch Size Text #
         ###################
         self.Batch_Size_Text = QtWidgets.QLineEdit(self.Settings_Window_White_Frame)
-        self.Batch_Size_Text.setGeometry(QtCore.QRect(self.Width / 5.555, (self.Height / 2.580) - (self.Height / 8.307),
-                                                      self.Width / 3.322, self.Height / 25.806))
+        self.Batch_Size_Text.setGeometry(QtCore.QRect(self.Width / 5.555, (self.Height / 2.580) - (self.Height / 9),
+                                                      self.Width / 3.322, self.Height / 21))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(15)
@@ -269,11 +272,11 @@ class Ui_Settings_Window(QMainWindow):
         # Training Split Label #
         ########################
         self.Training_Split_Label = QtWidgets.QLabel(self.Settings_Window_White_Frame)
-        self.Training_Split_Label.setGeometry(QtCore.QRect(self.Width / 33.333, (self.Height / 2.162) - (self.Height / 8.3),
-                                                           self.Width / 7.092, self.Height / 26.666))
+        self.Training_Split_Label.setGeometry(QtCore.QRect(self.Width / 33.333, (self.Height / 2.162) - (self.Height / 8.5),
+                                                           self.Width / 7.092, self.Height / 20))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(23)
+        font.setPointSize(17)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -285,8 +288,8 @@ class Ui_Settings_Window(QMainWindow):
         # Training Split Text #
         #######################
         self.Training_Split_Text = QtWidgets.QLineEdit(self.Settings_Window_White_Frame)
-        self.Training_Split_Text.setGeometry(QtCore.QRect(self.Width / 5.555, (self.Height / 2.162) - (self.Height / 8.307),
-                                                          self.Width / 3.322, self.Height / 25.806))
+        self.Training_Split_Text.setGeometry(QtCore.QRect(self.Width / 5.555, (self.Height / 2.162) - (self.Height / 9),
+                                                          self.Width / 3.322, self.Height / 21))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(15)
@@ -323,7 +326,7 @@ class Ui_Settings_Window(QMainWindow):
         # Back Icon #
         #############
         self.Back_Icon = QtWidgets.QLabel(self.Settings_Window_White_Frame)
-        self.Back_Icon.setGeometry(QtCore.QRect(self.Width / 5.405, (self.Height / 1.649) - (self.Height / 8.307),
+        self.Back_Icon.setGeometry(QtCore.QRect(self.Width / 4.9, (self.Height / 1.649) - (self.Height / 8.307),
                                                 self.Width / 24.390, self.Height / 19.512))
         self.Back_Icon.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.Back_Icon.setFocusPolicy(QtCore.Qt.StrongFocus)
@@ -373,6 +376,7 @@ class Ui_Settings_Window(QMainWindow):
         Settings_Window_Main.setCentralWidget(self.Settings_Window_Frame)
         self.Retranslate_UI(Settings_Window_Main)
         QtCore.QMetaObject.connectSlotsByName(Settings_Window_Main)
+        self.Application_Main.aboutToQuit.connect(self.Close_Event_By_X_Button)
         pass
 
     def Retranslate_UI(self, Settings_Window_Main):
@@ -384,7 +388,7 @@ class Ui_Settings_Window(QMainWindow):
         _translate = QtCore.QCoreApplication.translate
         Settings_Window_Main.setWindowTitle(_translate("Settings_Window", "Prose Style Transfer - Settings Window"))
         self.Prose_Style_Transfer_Label.setText(_translate("Settings_Window",
-                                                           "<html><head/><body><p><span style=\" font-size:70pt; "
+                                                           "<html><head/><body><p><span style=\" font-size:60pt; "
                                                            "font-style:italic;\">PROSE<br/>STYLE "
                                                            "<br/>TRANSFER</span></p></body></html>"))
         self.Epoch_Number_Label.setText(_translate("Settings_Window", "Epoch Number :"))
@@ -420,7 +424,7 @@ class Ui_Settings_Window(QMainWindow):
         # From #
         from Classes.Manager_Window import Ui_Manager_Window
         self.Manager_Window_Object = Ui_Manager_Window(self.Script_Path, self.User_Role)
-        self.Manager_Window_Object.Init_UI(self.Manager_Window_Main)
+        self.Manager_Window_Object.Init_UI(self.Application_Main, self.Manager_Window_Main)
 
         # Close Current Window #
         self.Settings_Window_Main.close()
@@ -665,13 +669,27 @@ class Ui_Settings_Window(QMainWindow):
         # From #
         from Classes.Manager_Window import Ui_Manager_Window
         self.Manager_Window_Object = Ui_Manager_Window(self.Script_Path, self.User_Role)
-        self.Manager_Window_Object.Init_UI(self.Manager_Window_Main)
+        self.Manager_Window_Object.Init_UI(self.Application_Main, self.Manager_Window_Main)
 
         # Close Current Window #
         self.Settings_Window_Main.close()
 
         # Show Previous Window #
         self.Manager_Window_Main.show()
+        pass
+
+    @staticmethod
+    def Close_Event_By_X_Button():
+        # Explain Of The Function #
+        """
+        This Function Close The GUI By 'X' Button.
+        """
+
+        print("===========================================================================")
+        print("\t\t\tThe User Press On - 'X' / 'Close' Button !")
+        print("===========================================================================")
+
+        sys.exit(0)
         pass
 
     pass

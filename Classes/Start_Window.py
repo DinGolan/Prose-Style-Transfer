@@ -37,6 +37,7 @@ class Ui_Start_Window(QMainWindow):
         self.Exit_Icon = None
         self.Help_Icon = None
         self.Message_Box_Icon = None
+        self.Application_Main = None
 
         # Other Component #
         self.User_Window_Main = None
@@ -51,7 +52,7 @@ class Ui_Start_Window(QMainWindow):
         self.Height = Height_Screen
         pass
 
-    def Init_UI(self, Start_Window_Main):
+    def Init_UI(self, Application_Main, Start_Window_Main):
         # Explain Of The Function #
         """
         This Function Make The Initialized Of The GUI.
@@ -60,6 +61,7 @@ class Ui_Start_Window(QMainWindow):
         ##########
         # Window #
         ##########
+        self.Application_Main = Application_Main
         self.Start_Window_Main = Start_Window_Main
         Start_Window_Main.setObjectName("Start_Window")
         Start_Window_Main.resize(self.Width, self.Height)
@@ -131,7 +133,7 @@ class Ui_Start_Window(QMainWindow):
                                                   self.Width / 4.5, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -196,7 +198,7 @@ class Ui_Start_Window(QMainWindow):
                                                    self.Width / 2.298, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -215,7 +217,7 @@ class Ui_Start_Window(QMainWindow):
                                                   self.Width / 4.878, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -231,7 +233,7 @@ class Ui_Start_Window(QMainWindow):
         ###################
         self.Start_Combo_Box = QtWidgets.QComboBox(self.Start_Window_Frame_White)
         self.Start_Combo_Box.setGeometry(QtCore.QRect(self.Width / 7.142, (self.Height / 2.285) - (self.Height / 8.307),
-                                                      self.Width / 4.347, self.Height / 26.666))
+                                                      self.Width / 4.347, self.Height / 20))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
         font.setPointSize(20)
@@ -306,6 +308,7 @@ class Ui_Start_Window(QMainWindow):
         Start_Window_Main.setCentralWidget(self.Start_Window_Frame)
         self.Retranslate_UI()
         QtCore.QMetaObject.connectSlotsByName(Start_Window_Main)
+        self.Application_Main.aboutToQuit.connect(self.Close_Event_By_X_Button)
         pass
 
     def Retranslate_UI(self):
@@ -316,7 +319,7 @@ class Ui_Start_Window(QMainWindow):
 
         _translate = QtCore.QCoreApplication.translate
         self.Prose_Style_Transfer_Label.setText(_translate("Start_Window", "<html><head/><body><p><span "
-                                                                           "style=\" font-size:70pt; "
+                                                                           "style=\" font-size:60pt; "
                                                                            "font-style:italic;\">PROSE<br/>"
                                                                            "STYLE <br/>TRANSFER</span>"
                                                                            "</p></body></html>"))
@@ -377,7 +380,7 @@ class Ui_Start_Window(QMainWindow):
                 # From #
                 from Classes.User_Window import Ui_User_Window
                 self.User_Window_Object = Ui_User_Window(self.Script_Path, self.Role)
-                self.User_Window_Object.Init_UI(self.User_Window_Main)
+                self.User_Window_Object.Init_UI(self.Application_Main, self.User_Window_Main)
 
                 # Close Current Window #
                 self.Start_Window_Main.close()
@@ -392,7 +395,7 @@ class Ui_Start_Window(QMainWindow):
                 # From #
                 from Classes.Manager_Window import Ui_Manager_Window
                 self.Manager_Window_Object = Ui_Manager_Window(self.Script_Path, self.Role)
-                self.Manager_Window_Object.Init_UI(self.Manager_Window_Main)
+                self.Manager_Window_Object.Init_UI(self.Application_Main, self.Manager_Window_Main)
 
                 # Close Current Window #
                 self.Start_Window_Main.close()
@@ -780,6 +783,20 @@ class Ui_Start_Window(QMainWindow):
         sys.path.append(Script_Path_Main + "Help")
         pass
 
+    @staticmethod
+    def Close_Event_By_X_Button():
+        # Explain Of The Function #
+        """
+        This Function Close The GUI By 'X' Button.
+        """
+
+        print("===========================================================================")
+        print("\t\t\tThe User Press On - 'X' / 'Close' Button !")
+        print("===========================================================================")
+
+        sys.exit(0)
+        pass
+
     pass
 
 
@@ -846,7 +863,7 @@ if __name__.endswith('__main__'):
     Start_Window = QtWidgets.QMainWindow()
     Start_Window_Object = Ui_Start_Window(Script_Path_Main)
     Start_Window_Object.Add_Paths_To_System()
-    Start_Window_Object.Init_UI(Start_Window)
+    Start_Window_Object.Init_UI(Application, Start_Window)
     Start_Window.show()
     sys.exit(Application.exec_())
     pass

@@ -7,7 +7,7 @@ import ctypes
 
 # Froms #
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMessageBox, QApplication
 from PyQt5.QtGui import QMouseEvent
 
 
@@ -49,6 +49,7 @@ class Ui_Source_And_Target_Window(QMainWindow):
         self.Run_Model_Icon = None
         self.Back_Icon = None
         self.Help_Icon = None
+        self.Application_Main = None
 
         # Other Component #
         self.User_Window_Main = None
@@ -74,7 +75,7 @@ class Ui_Source_And_Target_Window(QMainWindow):
         self.Shelve_Settings_Dictionary = None
         pass
 
-    def Init_UI(self, Select_Versions_Window_Main):
+    def Init_UI(self, Application_Main, Select_Versions_Window_Main):
         # Explain Of The Function #
         """
         This Function Make The Initialized Of The GUI.
@@ -83,12 +84,14 @@ class Ui_Source_And_Target_Window(QMainWindow):
         ##########
         # Window #
         ##########
+        self.Application_Main = Application_Main
         self.Source_And_Target_Window_Main = Select_Versions_Window_Main
         Select_Versions_Window_Main.setObjectName("Source_And_Target_Window")
         Select_Versions_Window_Main.resize(self.Width, self.Height)
         Select_Versions_Window_Main.setMinimumSize(QtCore.QSize(self.Width, self.Height))
         Select_Versions_Window_Main.setMaximumSize(QtCore.QSize(self.Width, self.Height))
         Select_Versions_Window_Main.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        QApplication.restoreOverrideCursor()
         Select_Versions_Window_Main.setWindowTitle("Prose Style Transfer - Select Source & Target Window")
 
         ########
@@ -151,10 +154,10 @@ class Ui_Source_And_Target_Window(QMainWindow):
         self.Back_Button = QtWidgets.QPushButton(self.Source_And_Target_Window_Frame_White)
         self.Back_Button.setGeometry(QtCore.QRect(self.Width / 20,
                                                   (self.Height / 1.702) - (self.Height / 8.307),
-                                                  self.Width / 4.8, self.Height / 8.791))
+                                                  self.Width / 4.7, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -186,7 +189,7 @@ class Ui_Source_And_Target_Window(QMainWindow):
                                                   self.Width / 5.235, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -224,7 +227,7 @@ class Ui_Source_And_Target_Window(QMainWindow):
                                                          self.Width / 5.235, self.Height / 19.512))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(20)
+        font.setPointSize(17)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -241,7 +244,7 @@ class Ui_Source_And_Target_Window(QMainWindow):
                                                          self.Width / 4.739, self.Height / 19.512))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(20)
+        font.setPointSize(17)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -257,7 +260,7 @@ class Ui_Source_And_Target_Window(QMainWindow):
                                                        self.Width / 2.433, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -273,11 +276,11 @@ class Ui_Source_And_Target_Window(QMainWindow):
         #######################
         self.Text_Source_Prose = QtWidgets.QTextEdit(self.Source_And_Target_Window_Frame_White)
         self.Text_Source_Prose.setGeometry(QtCore.QRect(self.Width / 6.25, (self.Height / 2.666) - (self.Height / 8.307),
-                                                        self.Width / 3.703, self.Height / 25.806))
+                                                        self.Width / 3.703, self.Height / 21))
         self.Text_Source_Prose.setObjectName("Text_Source_Prose")
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(15)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.Text_Source_Prose.setFont(font)
@@ -296,10 +299,10 @@ class Ui_Source_And_Target_Window(QMainWindow):
         ##############################
         self.Tool_Button_Source_Prose = QtWidgets.QToolButton(self.Source_And_Target_Window_Frame_White)
         self.Tool_Button_Source_Prose.setGeometry(QtCore.QRect(self.Width / 11.111, (self.Height / 2.666) - (self.Height / 8.307),
-                                                               self.Width / 14.084, self.Height / 25.806))
+                                                               self.Width / 14.084, self.Height / 21))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(15)
+        font.setPointSize(12)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -315,11 +318,11 @@ class Ui_Source_And_Target_Window(QMainWindow):
         #######################
         self.Text_Target_Prose = QtWidgets.QTextEdit(self.Source_And_Target_Window_Frame_White)
         self.Text_Target_Prose.setGeometry(QtCore.QRect(self.Width / 6.25, (self.Height / 2.051) - (self.Height / 8.307),
-                                                        self.Width / 3.703, self.Height / 25.806))
+                                                        self.Width / 3.703, self.Height / 21))
         self.Text_Target_Prose.setObjectName("Text_Target_Prose")
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(15)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.Text_Target_Prose.setFont(font)
@@ -338,10 +341,10 @@ class Ui_Source_And_Target_Window(QMainWindow):
         ##############################
         self.Tool_Button_Target_Prose = QtWidgets.QToolButton(self.Source_And_Target_Window_Frame_White)
         self.Tool_Button_Target_Prose.setGeometry(QtCore.QRect(self.Width / 11.111, (self.Height / 2.051) - (self.Height / 8.307),
-                                                               self.Width / 14.084, self.Height / 25.806))
+                                                               self.Width / 14.084, self.Height / 21))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(15)
+        font.setPointSize(12)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -356,7 +359,7 @@ class Ui_Source_And_Target_Window(QMainWindow):
         # Back Icon #
         #############
         self.Back_Icon = QtWidgets.QLabel(self.Source_And_Target_Window_Frame_White)
-        self.Back_Icon.setGeometry(QtCore.QRect(self.Width / 5, (self.Height / 1.616) - (self.Height / 8.307),
+        self.Back_Icon.setGeometry(QtCore.QRect(self.Width / 4.85, (self.Height / 1.616) - (self.Height / 8.307),
                                                 self.Width / 24.390, self.Height / 19.512))
         self.Back_Icon.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.Back_Icon.setFocusPolicy(QtCore.Qt.StrongFocus)
@@ -406,6 +409,7 @@ class Ui_Source_And_Target_Window(QMainWindow):
         Select_Versions_Window_Main.setCentralWidget(self.Source_And_Target_Frame)
         self.Retranslate_UI()
         QtCore.QMetaObject.connectSlotsByName(self.Source_And_Target_Frame)
+        self.Application_Main.aboutToQuit.connect(self.Close_Event_By_X_Button)
         pass
 
     def Retranslate_UI(self):
@@ -416,7 +420,7 @@ class Ui_Source_And_Target_Window(QMainWindow):
 
         _translate = QtCore.QCoreApplication.translate
         self.Prose_Style_Transfer_Label.setText(_translate("Source_And_Target_Window", "<html><head/><body><p><span "
-                                                                                       "style=\" font-size:70pt; "
+                                                                                       "style=\" font-size:60pt; "
                                                                                        "font-style:italic;\">PROSE<br/>"
                                                                                        "STYLE <br/>TRANSFER</span></p>"
                                                                                        "</body></html>"))
@@ -710,8 +714,14 @@ class Ui_Source_And_Target_Window(QMainWindow):
                 print("\t\t\tMouse Event On - Run Model Icon !")
                 print("===========================================================================")
 
+            # Wait Cursor #
+            QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
+
             # Check Extreme Case #
             if self.Source_Prose_Pick is None or self.Target_Prose_Pick is None:
+                # Default Cursor #
+                QApplication.restoreOverrideCursor()
+
                 # Style Sheet #
                 Icon = QtGui.QIcon()
                 Icon.addPixmap(QtGui.QPixmap("../Pictures/Project - Logo.ico"),
@@ -779,18 +789,21 @@ class Ui_Source_And_Target_Window(QMainWindow):
                                                                          None,
                                                                          self.Shelve_Settings_Dictionary)
 
-                        self.Progress_Window_Object.Init_UI(self.Progress_Window_Main)
+                        self.Progress_Window_Object.Init_UI(self.Application_Main, self.Progress_Window_Main)
 
                         # Close Current Window #
                         self.Source_And_Target_Window_Main.close()
 
-                        # Show Previous Window #
+                        # Show Next Window #
                         self.Progress_Window_Main.show()
                     else:
                         # Explain #
                         """
                         # If The Model Not Exist The User Will Run {Default Model} OR {Will Get Error Message} #
                         """
+
+                        # Default Cursor #
+                        QApplication.restoreOverrideCursor()
 
                         # Style Sheet #
                         Icon = QtGui.QIcon()
@@ -833,12 +846,12 @@ class Ui_Source_And_Target_Window(QMainWindow):
                                                                              self.Default_Model_Path,
                                                                              self.Shelve_Settings_Dictionary)
 
-                            self.Progress_Window_Object.Init_UI(self.Progress_Window_Main)
+                            self.Progress_Window_Object.Init_UI(self.Application_Main, self.Progress_Window_Main)
 
                             # Close Current Window #
                             self.Source_And_Target_Window_Main.close()
 
-                            # Show Previous Window #
+                            # Show Next Window #
                             self.Progress_Window_Main.show()
 
                         elif Button_Reply == QMessageBox.No:
@@ -870,6 +883,9 @@ class Ui_Source_And_Target_Window(QMainWindow):
                     if self.Shelve_Settings_Dictionary["Settings"]["Epoch_Number_Text"] != 10 or \
                        self.Shelve_Settings_Dictionary["Settings"]["Batch_Size_Text"] != 64 or \
                        self.Shelve_Settings_Dictionary["Settings"]["Training_Split_Text"] != 0.7:
+
+                        # Default Cursor #
+                        QApplication.restoreOverrideCursor()
 
                         # Style Sheet #
                         Icon = QtGui.QIcon()
@@ -906,7 +922,7 @@ class Ui_Source_And_Target_Window(QMainWindow):
                                                                                      Manager_Controller_Object,
                                                                                      self.Shelve_Settings_Dictionary)
 
-                            self.Create_Model_Window_Object.Init_UI(self.Create_Model_Window_Main)
+                            self.Create_Model_Window_Object.Init_UI(self.Application_Main, self.Create_Model_Window_Main)
 
                             # Close Current Window #
                             self.Source_And_Target_Window_Main.close()
@@ -935,18 +951,21 @@ class Ui_Source_And_Target_Window(QMainWindow):
                                                                          None,
                                                                          self.Shelve_Settings_Dictionary)
 
-                        self.Progress_Window_Object.Init_UI(self.Progress_Window_Main)
+                        self.Progress_Window_Object.Init_UI(self.Application_Main, self.Progress_Window_Main)
 
                         # Close Current Window #
                         self.Source_And_Target_Window_Main.close()
 
-                        # Show Previous Window #
+                        # Show Next Window #
                         self.Progress_Window_Main.show()
                     else:
                         # Explain #
                         """
                         # If The Model Not Exist The Manager Will Run {Default Model} OR {New Model} #
                         """
+
+                        # Default Cursor #
+                        QApplication.restoreOverrideCursor()
 
                         # Style Sheet #
                         Icon = QtGui.QIcon()
@@ -990,12 +1009,12 @@ class Ui_Source_And_Target_Window(QMainWindow):
                                                                              self.Default_Model_Path,
                                                                              self.Shelve_Settings_Dictionary)
 
-                            self.Progress_Window_Object.Init_UI(self.Progress_Window_Main)
+                            self.Progress_Window_Object.Init_UI(self.Application_Main, self.Progress_Window_Main)
 
                             # Close Current Window #
                             self.Source_And_Target_Window_Main.close()
 
-                            # Show Previous Window #
+                            # Show Next Window #
                             self.Progress_Window_Main.show()
 
                         elif Button_Reply == QMessageBox.No:
@@ -1031,15 +1050,18 @@ class Ui_Source_And_Target_Window(QMainWindow):
                                                                                          Manager_Controller_Object,
                                                                                          self.Shelve_Settings_Dictionary)
 
-                                self.Create_Model_Window_Object.Init_UI(self.Create_Model_Window_Main)
+                                self.Create_Model_Window_Object.Init_UI(self.Application_Main, self.Create_Model_Window_Main)
 
                                 # Close Current Window #
                                 self.Source_And_Target_Window_Main.close()
 
-                                # Show Previous Window #
+                                # Show Next Window #
                                 self.Create_Model_Window_Main.show()
 
         except Exception as Object_Exception:
+            # Default Cursor #
+            QApplication.restoreOverrideCursor()
+
             # Style Sheet #
             Icon = QtGui.QIcon()
             Icon.addPixmap(QtGui.QPixmap("../Pictures/Project - Logo.ico"),
@@ -1127,7 +1149,7 @@ class Ui_Source_And_Target_Window(QMainWindow):
             # From #
             from Classes.User_Window import Ui_User_Window
             self.User_Window_Object = Ui_User_Window(self.Script_Path, self.User_Role)
-            self.User_Window_Object.Init_UI(self.User_Window_Main)
+            self.User_Window_Object.Init_UI(self.Application_Main, self.User_Window_Main)
 
             # Close Current Window #
             self.Source_And_Target_Window_Main.close()
@@ -1143,7 +1165,7 @@ class Ui_Source_And_Target_Window(QMainWindow):
             # From #
             from Classes.Manager_Window import Ui_Manager_Window
             self.Manager_Window_Object = Ui_Manager_Window(self.Script_Path, self.User_Role)
-            self.Manager_Window_Object.Init_UI(self.Manager_Window_Main)
+            self.Manager_Window_Object.Init_UI(self.Application_Main, self.Manager_Window_Main)
 
             # Close Current Window #
             self.Source_And_Target_Window_Main.close()
@@ -1151,6 +1173,20 @@ class Ui_Source_And_Target_Window(QMainWindow):
             # Show Previous Window #
             self.Manager_Window_Main.show()
             pass
+        pass
+
+    @staticmethod
+    def Close_Event_By_X_Button():
+        # Explain Of The Function #
+        """
+        This Function Close The GUI By 'X' Button.
+        """
+
+        print("===========================================================================")
+        print("\t\t\tThe User Press On - 'X' / 'Close' Button !")
+        print("===========================================================================")
+
+        sys.exit(0)
         pass
 
     pass

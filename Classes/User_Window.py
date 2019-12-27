@@ -1,6 +1,7 @@
 # Imports #
 import ctypes
 import os
+import sys
 
 # Froms #
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -32,6 +33,7 @@ class Ui_User_Window(QMainWindow):
         self.Label_Created_By = None
         self.Help_Icon = None
         self.Back_Icon = None
+        self.Application_Main = None
 
         # Other Component #
         self.Select_Versions_Window_Main = None
@@ -46,7 +48,7 @@ class Ui_User_Window(QMainWindow):
         self.Height = Height_Screen
         pass
 
-    def Init_UI(self, User_Window_Main):
+    def Init_UI(self, Application_Main, User_Window_Main):
         # Explain Of The Function #
         """
         This Function Make The Initialized Of The GUI.
@@ -55,6 +57,7 @@ class Ui_User_Window(QMainWindow):
         ##########
         # Window #
         ##########
+        self.Application_Main = Application_Main
         self.User_Window_Main = User_Window_Main
         User_Window_Main.setObjectName("User_Window")
         User_Window_Main.resize(self.Width, self.Height)
@@ -121,10 +124,10 @@ class Ui_User_Window(QMainWindow):
         ###############
         self.Back_Button = QtWidgets.QPushButton(self.User_Window_Frame_White)
         self.Back_Button.setGeometry(QtCore.QRect(self.Width / 25, (self.Height / 1.454) - (self.Height / 8.307),
-                                                  self.Width / 4.7, self.Height / 8.791))
+                                                  self.Width / 4.45, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -144,7 +147,7 @@ class Ui_User_Window(QMainWindow):
                                                                         self.Width / 2.320, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -165,7 +168,7 @@ class Ui_User_Window(QMainWindow):
                                                                      self.Width / 2.320, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -200,7 +203,7 @@ class Ui_User_Window(QMainWindow):
                                                   self.Width / 4.975, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -250,7 +253,7 @@ class Ui_User_Window(QMainWindow):
         # Back Icon #
         #############
         self.Back_Icon = QtWidgets.QLabel(self.User_Window_Frame_White)
-        self.Back_Icon.setGeometry(QtCore.QRect(self.Width / 5.2,
+        self.Back_Icon.setGeometry(QtCore.QRect(self.Width / 4.9,
                                                 (self.Height / 1.388) - (self.Height / 8.307),
                                                 self.Width / 24.390, self.Height / 19.512))
         self.Back_Icon.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -269,6 +272,7 @@ class Ui_User_Window(QMainWindow):
         User_Window_Main.setCentralWidget(self.User_Window_Frame)
         self.Retranslate_UI()
         QtCore.QMetaObject.connectSlotsByName(self.User_Window_Frame)
+        self.Application_Main.aboutToQuit.connect(self.Close_Event_By_X_Button)
         pass
 
     def Retranslate_UI(self):
@@ -279,7 +283,7 @@ class Ui_User_Window(QMainWindow):
 
         _translate = QtCore.QCoreApplication.translate
         self.Prose_Style_Transfer_Label.setText(_translate("User_Window", "<html><head/><body><p><span style=\" "
-                                                                          "font-size:70pt; font-style:italic;\">"
+                                                                          "font-size:60pt; font-style:italic;\">"
                                                                           "PROSE<br/>""STYLE <br/>"
                                                                           "TRANSFER</span></p></body></html>"))
         self.Back_Button.setText(_translate("User_Window", "Back"))
@@ -305,7 +309,7 @@ class Ui_User_Window(QMainWindow):
         # From #
         from Classes.Select_Versions_Window import Ui_Source_And_Target_Window
         self.Select_Versions_Window_Object = Ui_Source_And_Target_Window(self.Script_Path, self.User_Role, '1')
-        self.Select_Versions_Window_Object.Init_UI(self.Select_Versions_Window_Main)
+        self.Select_Versions_Window_Object.Init_UI(self.Application_Main, self.Select_Versions_Window_Main)
 
         # Close Current Window #
         self.User_Window_Main.close()
@@ -327,7 +331,7 @@ class Ui_User_Window(QMainWindow):
         # From #
         from Classes.Select_Versions_Window import Ui_Source_And_Target_Window
         self.Select_Versions_Window_Object = Ui_Source_And_Target_Window(self.Script_Path, self.User_Role, '2')
-        self.Select_Versions_Window_Object.Init_UI(self.Select_Versions_Window_Main)
+        self.Select_Versions_Window_Object.Init_UI(self.Application_Main, self.Select_Versions_Window_Main)
 
         # Close Current Window #
         self.User_Window_Main.close()
@@ -405,13 +409,27 @@ class Ui_User_Window(QMainWindow):
         # From #
         from Classes.Start_Window import Ui_Start_Window
         self.Start_Window_Object = Ui_Start_Window(self.Script_Path)
-        self.Start_Window_Object.Init_UI(self.Start_Window_Main)
+        self.Start_Window_Object.Init_UI(self.Application_Main, self.Start_Window_Main)
 
         # Close Current Window #
         self.User_Window_Main.close()
 
-        # Show Next Window #
+        # Show Previous Window #
         self.Start_Window_Main.show()
+        pass
+
+    @staticmethod
+    def Close_Event_By_X_Button():
+        # Explain Of The Function #
+        """
+        This Function Close The GUI By 'X' Button.
+        """
+
+        print("===========================================================================")
+        print("\t\t\tThe User Press On - 'X' / 'Close' Button !")
+        print("===========================================================================")
+
+        sys.exit(0)
         pass
 
     pass

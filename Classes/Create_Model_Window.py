@@ -1,10 +1,11 @@
 # Imports #
 import ctypes
 import os
+import sys
 
 # Froms #
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.QtGui import QMouseEvent
 
 
@@ -39,6 +40,7 @@ class Ui_Create_Model_Window(QMainWindow):
         self.Back_Icon = None
         self.Build_Model_Icon = None
         self.Continue_To_Predict_Icon = None
+        self.Application_Main = None
 
         # Other Component #
         self.Progress_Window_Main = None
@@ -60,7 +62,7 @@ class Ui_Create_Model_Window(QMainWindow):
         self.Height = Height_Screen
         pass
 
-    def Init_UI(self, Create_Model_Window_Main):
+    def Init_UI(self, Application_Main, Create_Model_Window_Main):
         # Explain Of The Function #
         """
         This Function Make The Initialized Of The GUI.
@@ -69,13 +71,16 @@ class Ui_Create_Model_Window(QMainWindow):
         ##########
         # Window #
         ##########
+        self.Application_Main = Application_Main
         self.Create_Model_Window_Main = Create_Model_Window_Main
         Create_Model_Window_Main.setObjectName("Create_Model_Window")
         Create_Model_Window_Main.resize(self.Width, self.Height)
         Create_Model_Window_Main.setMinimumSize(QtCore.QSize(self.Width, self.Height))
         Create_Model_Window_Main.setMaximumSize(QtCore.QSize(self.Width, self.Height))
         Create_Model_Window_Main.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        QApplication.restoreOverrideCursor()
         Create_Model_Window_Main.setWindowTitle("Prose Style Transfer - Create Model Window")
+        Create_Model_Window_Main.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, False)
 
         ########
         # Icon #
@@ -136,11 +141,11 @@ class Ui_Create_Model_Window(QMainWindow):
         ################
         self.Build_Button = QtWidgets.QPushButton(self.Create_Model_Window_Frame_White)
         self.Build_Button.setEnabled(True)
-        self.Build_Button.setGeometry(QtCore.QRect(self.Width / 33.333, (self.Height / 1.6) - (self.Height / 7.7),
+        self.Build_Button.setGeometry(QtCore.QRect(self.Width / 33.333, (self.Height / 1.6) - (self.Height / 7),
                                                    self.Width / 2.222, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -156,11 +161,11 @@ class Ui_Create_Model_Window(QMainWindow):
         ###############
         self.Help_Button = QtWidgets.QPushButton(self.Create_Model_Window_Frame_White)
         self.Help_Button.setEnabled(True)
-        self.Help_Button.setGeometry(QtCore.QRect(self.Width / 3.773, (self.Height / 1.333) - (self.Height / 7.7),
+        self.Help_Button.setGeometry(QtCore.QRect(self.Width / 3.773, (self.Height / 1.333) - (self.Height / 7),
                                                   self.Width / 4.651, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -176,11 +181,11 @@ class Ui_Create_Model_Window(QMainWindow):
         ###############
         self.Back_Button = QtWidgets.QPushButton(self.Create_Model_Window_Frame_White)
         self.Back_Button.setEnabled(True)
-        self.Back_Button.setGeometry(QtCore.QRect(self.Width / 33.333, (self.Height / 1.333) - (self.Height / 7.7),
+        self.Back_Button.setGeometry(QtCore.QRect(self.Width / 33.333, (self.Height / 1.333) - (self.Height / 7),
                                                   self.Width / 4.4, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -230,7 +235,7 @@ class Ui_Create_Model_Window(QMainWindow):
                                                  self.Width / 2.320, self.Height / 8.421))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(20)
+        font.setPointSize(15)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -245,11 +250,11 @@ class Ui_Create_Model_Window(QMainWindow):
         self.Continue_To_Predict_Button = QtWidgets.QPushButton(self.Create_Model_Window_Frame_White)
         self.Continue_To_Predict_Button.setEnabled(False)
         self.Continue_To_Predict_Button.setGeometry(QtCore.QRect(self.Width / 33.333,
-                                                                 (self.Height / 1.142) - (self.Height / 7.7),
+                                                                 (self.Height / 1.142) - (self.Height / 7),
                                                                  self.Width / 2.222, self.Height / 8.791))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
-        font.setPointSize(25)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -276,7 +281,7 @@ class Ui_Create_Model_Window(QMainWindow):
         #######################
         self.Build_Model_Picture = QtWidgets.QLabel(self.Create_Model_Window_Frame_White)
         self.Build_Model_Picture.setGeometry(QtCore.QRect((self.Width / 3.906) + (self.Width / 20),
-                                                          (self.Height / 2.857) - (self.Height / 9.25),
+                                                          (self.Height / 2.857) - (self.Height / 8.35),
                                                           self.Width / 4.878, self.Height / 3.980))
         self.Build_Model_Picture.setText("")
         self.Build_Model_Picture.setPixmap(QtGui.QPixmap("../Pictures/Build_Model.ico"))
@@ -286,7 +291,7 @@ class Ui_Create_Model_Window(QMainWindow):
         # Help Icon #
         #############
         self.Help_Icon = QtWidgets.QLabel(self.Create_Model_Window_Frame_White)
-        self.Help_Icon.setGeometry(QtCore.QRect(self.Width / 2.380, (self.Height / 1.28) - (self.Height / 7.7),
+        self.Help_Icon.setGeometry(QtCore.QRect(self.Width / 2.380, (self.Height / 1.28) - (self.Height / 7),
                                                 self.Width / 24.390, self.Height / 19.512))
         self.Help_Icon.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.Help_Icon.setFocusPolicy(QtCore.Qt.StrongFocus)
@@ -302,7 +307,7 @@ class Ui_Create_Model_Window(QMainWindow):
         # Back Icon #
         #############
         self.Back_Icon = QtWidgets.QLabel(self.Create_Model_Window_Frame_White)
-        self.Back_Icon.setGeometry(QtCore.QRect(self.Width / 5.07, (self.Height / 1.28) - (self.Height / 7.7),
+        self.Back_Icon.setGeometry(QtCore.QRect(self.Width / 5.07, (self.Height / 1.28) - (self.Height / 7),
                                                 self.Width / 24.390, self.Height / 19.512))
         self.Back_Icon.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.Back_Icon.setFocusPolicy(QtCore.Qt.StrongFocus)
@@ -319,7 +324,7 @@ class Ui_Create_Model_Window(QMainWindow):
         ####################
         self.Build_Model_Icon = QtWidgets.QLabel(self.Create_Model_Window_Frame_White)
         self.Build_Model_Icon.setGeometry(QtCore.QRect(self.Width / 2.9,
-                                                       (self.Height / 1.523) - (self.Height / 7.7),
+                                                       (self.Height / 1.523) - (self.Height / 7),
                                                        self.Width / 24.390, self.Height / 19.512))
         self.Build_Model_Icon.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.Build_Model_Icon.setFocusPolicy(QtCore.Qt.StrongFocus)
@@ -335,7 +340,7 @@ class Ui_Create_Model_Window(QMainWindow):
         # Continue To Predict Icon #
         ############################
         self.Continue_To_Predict_Icon = QtWidgets.QLabel(self.Create_Model_Window_Frame_White)
-        self.Continue_To_Predict_Icon.setGeometry(QtCore.QRect(self.Width / 2.631, (self.Height / 1.103) - (self.Height / 7.7),
+        self.Continue_To_Predict_Icon.setGeometry(QtCore.QRect(self.Width / 2.631, (self.Height / 1.103) - (self.Height / 7),
                                                                self.Width / 24.390, self.Height / 19.512))
         self.Continue_To_Predict_Icon.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.Continue_To_Predict_Icon.setFocusPolicy(QtCore.Qt.StrongFocus)
@@ -353,6 +358,7 @@ class Ui_Create_Model_Window(QMainWindow):
         Create_Model_Window_Main.setCentralWidget(self.Create_Model_Frame)
         self.Retranslate_UI()
         QtCore.QMetaObject.connectSlotsByName(Create_Model_Window_Main)
+        self.Application_Main.aboutToQuit.connect(self.Close_Event_By_X_Button)
         pass
 
     def Retranslate_UI(self):
@@ -363,7 +369,7 @@ class Ui_Create_Model_Window(QMainWindow):
 
         _translate = QtCore.QCoreApplication.translate
         self.Prose_Style_Transfer_Label.setText(_translate("Create_Model_Window", "<html><head/><body><p><span "
-                                                                                  "style=\" font-size:70pt; "
+                                                                                  "style=\" font-size:60pt; "
                                                                                   "font-style:italic;\">"
                                                                                   "PROSE<br/>STYLE <br/>"
                                                                                   "TRANSFER</span></p></body></html>"))
@@ -374,9 +380,8 @@ class Ui_Create_Model_Window(QMainWindow):
                                                  "Supervisor: Dvora Toledano\n" +
                                                  "Advice Supervisor: Zeev Vladimir Volkovich\n" +
                                                  "Date: 27/01/2020"))
-        self.Wait_Label.setText(_translate("Create_Model_Window", "Press On 'Build Model' Button !\n" +
-                                           "Approximately Time Of Creating\n" +
-                                           "The Model Is Between 2 - 4 Hours !"))
+        self.Wait_Label.setText(_translate("Create_Model_Window", "Press On 'Build Model' Button.  Approximately Time\n" +
+                                           "Of Creating The Model Is Between 2 - 4 Hours !"))
         self.Continue_To_Predict_Button.setText(_translate("Create_Model_Window", "Continue To Predict"))
         pass
 
@@ -393,6 +398,9 @@ class Ui_Create_Model_Window(QMainWindow):
                 print("\t\t\tMouse Event On - Build New Model Icon !")
                 print("===========================================================================")
 
+            # Wait Cursor #
+            QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
+
             # Explain #
             """
             # Disable Pressing Twice On 'Build Model' Button #
@@ -408,6 +416,9 @@ class Ui_Create_Model_Window(QMainWindow):
             ###################
             if self.Manager_Controller_Object.Manager_Main_Function(self.Choice_Number,
                                                                     self.Shelve_Settings_Dictionary) == "True":
+                # Default Cursor #
+                QApplication.restoreOverrideCursor()
+
                 # Explain #
                 """
                 # After We Finish To Create The Model We Can Continue To Predict The Model #
@@ -433,6 +444,9 @@ class Ui_Create_Model_Window(QMainWindow):
                                         "<p><font color='#ffaa00'>The New Model Created Successfully !<br><br>" +
                                         "Now, You Can Make Prediction To The Model !</font></p>")
             else:
+                # Default Cursor #
+                QApplication.restoreOverrideCursor()
+
                 # Return 'Build Model' Button To Enable , Because There Have Error #
                 self.Build_Button.setEnabled(True)
 
@@ -458,6 +472,9 @@ class Ui_Create_Model_Window(QMainWindow):
                                      "<p><font color='#ffaa00'>We Cant Build New Model , Because We Have Exception During The Building !</font></p>")
 
         except Exception as Object_Exception:
+            # Default Cursor #
+            QApplication.restoreOverrideCursor()
+
             # Return 'Build Model' Button To Enable , Because There Have Exception #
             self.Build_Button.setEnabled(True)
 
@@ -562,12 +579,12 @@ class Ui_Create_Model_Window(QMainWindow):
                                                          self.Target_Prose_Pick_Path,
                                                          self.Manager_Controller_Object)
 
-        self.Progress_Window_Object.Init_UI(self.Progress_Window_Main)
+        self.Progress_Window_Object.Init_UI(self.Application_Main, self.Progress_Window_Main)
 
         # Close Current Window #
         self.Create_Model_Window_Main.close()
 
-        # Show Previous Window #
+        # Show Next Window #
         self.Progress_Window_Main.show()
         pass
 
@@ -592,13 +609,27 @@ class Ui_Create_Model_Window(QMainWindow):
                                                                            self.Choice_Number, self.Source_Prose_Pick,
                                                                            self.Source_Prose_Pick_Path, self.Target_Prose_Pick,
                                                                            self.Target_Prose_Pick_Path)
-        self.Source_And_Target_Window_Object.Init_UI(self.Source_And_Target_Window_Main)
+        self.Source_And_Target_Window_Object.Init_UI(self.Application_Main, self.Source_And_Target_Window_Main)
 
         # Close Current Window #
         self.Create_Model_Window_Main.close()
 
         # Show Previous Window #
         self.Source_And_Target_Window_Main.show()
+        pass
+
+    @staticmethod
+    def Close_Event_By_X_Button():
+        # Explain Of The Function #
+        """
+        This Function Close The GUI By 'X' Button.
+        """
+
+        print("===========================================================================")
+        print("\t\t\tThe User Press On - 'X' / 'Close' Button !")
+        print("===========================================================================")
+
+        sys.exit(0)
         pass
 
     pass
