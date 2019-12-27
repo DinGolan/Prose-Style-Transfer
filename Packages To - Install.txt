@@ -1,0 +1,34 @@
+===========================
+| Packages  To - Install  |
+===========================
+
+-----------------------------------------------------------------------------------------
+Hi, If You Want To Running The Python App You Need To Download The Followings Packages - 
+-----------------------------------------------------------------------------------------
+
+1 : pickle
+2 : ctypes
+3 : pyqt5
+4 : pyqt5-tools
+5 : shelve
+6 : pandas
+7 : xlwt
+8 : nlpaug
+9 : nltk
+10 : numpy
+11 : keras
+12 : sklearn
+13 : gensim
+14 : shutil
+15 : mathplotlib
+
+------------------------------------------------------------------------
+Packages That Include In The Project But Don't Need Download For Them - 
+------------------------------------------------------------------------
+
+1 : sys
+2 : os
+3 : ctypes
+4 : math
+5 : re
+6 : gc
