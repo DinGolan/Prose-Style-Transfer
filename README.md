@@ -1,4 +1,4 @@
-# Prose Style Transfer 
+# Prose Style Transfer #
 
 - This project compare between versions of Hebrew bibles. 
 - The project use with model that belong to Machine Learning.
